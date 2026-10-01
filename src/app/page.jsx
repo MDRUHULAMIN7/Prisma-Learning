@@ -12,7 +12,7 @@ export default async function Home() {
         {/* Logo Tag */}
         <div className="self-center">
           <span className="bg-neo-pink text-black text-sm font-black uppercase tracking-widest border-4 border-black px-4 py-2 shadow-neo-sm select-none">
-            PRISMA CRASH COURSE // BASELINE APPLICATION
+            LEARNING NOTEBOOK
           </span>
         </div>
 
@@ -23,7 +23,7 @@ export default async function Home() {
 
         {/* Subtitle */}
         <p className="max-w-2xl mx-auto text-xl md:text-2xl font-bold leading-relaxed text-black">
-          A high-contrast, structured note-taking system built server-first using the latest Next.js App Router, Tailwind CSS, and Prisma ORM models for the Learn with Sumit course.
+          A simple place to collect your study notes, examples, and questions as you learn.
         </p>
 
         {/* Actions */}
@@ -74,11 +74,11 @@ export default async function Home() {
 
           <Card bg="bg-white">
             <span className="text-xs font-black bg-neo-yellow border-2 border-black px-2 py-0.5 shadow-neo-sm mb-4 inline-block">
-              PRISMA PREPARED
+              DEMO DATA
             </span>
-            <h3 className="text-xl font-black uppercase mb-2">Prisma ORM API</h3>
+            <h3 className="text-xl font-black uppercase mb-2">Try the Notebook</h3>
             <p className="font-semibold text-sm leading-relaxed text-zinc-700">
-              Data queries are structured to mirror Prisma client APIs. Swap mock files for generated database clients easily.
+              Add, edit, search, and organize notes while you practice. Demo data resets when the server restarts.
             </p>
           </Card>
         </div>

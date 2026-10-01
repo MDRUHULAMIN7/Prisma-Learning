@@ -8,12 +8,12 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata = {
-  title: 'LWS Prisma ORM Crash Course // Developer Notebook',
+  title: 'Learning Notebook',
   description: 'Official baseline note-taking application for mastering database relationships, schema migrations, and Server Actions in Next.js.',
   openGraph: {
-    title: 'LWS Prisma ORM Crash Course',
-    description: 'Step-by-step developer notebook demonstrating relational data fetching with Prisma ORM and Next.js App Router.',
-    siteName: 'Learn with Sumit',
+    title: 'Learning Notebook',
+    description: 'A simple notebook for collecting study notes and ideas.',
+    siteName: 'Learning Notebook',
     type: 'website',
   },
 };

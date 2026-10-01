@@ -39,7 +39,7 @@ export function NoteForm({ initialNote, allTags }) {
       <Input
         label="Note Title"
         name="title"
-        placeholder="e.g. Configure Prisma ORM with PostgreSQL"
+        placeholder="e.g. Notes from today's lesson"
         required
         defaultValue={initialNote?.title || ''}
       />

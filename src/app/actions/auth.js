@@ -1,69 +1,57 @@
 'use server';
 
-import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-const SESSION_COOKIE_NAME = 'lws_auth_token';
+const SESSION_COOKIE_NAME = 'learning_session';
 
-const MOCK_USER = {
-  id: 'user-1',
-  name: 'Sumit Saha',
-  email: 'sumit@learnwithsumit.com',
-};
+const initialUsers = [
+  {
+    id: 'user-1',
+    name: 'Demo Learner',
+    email: 'learner@example.com',
+    password: 'learning123',
+  },
+];
+
+globalThis.learningUsers ??= initialUsers;
 
 export async function getCurrentUser() {
   const cookieStore = await cookies();
-  const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+  const userId = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+  const user = globalThis.learningUsers.find((item) => item.id === userId);
 
-  try {
-    if (!token) {
-      throw new Error("Token not found");
-    }
-    const user = await prisma.user.findFirst({
-      where: { id: token }
-    })
-    return user;
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
+  if (!user) return null;
 
-  return null;
+  return { id: user.id, name: user.name, email: user.email };
+}
+
+async function startSession(userId) {
+  const cookieStore = await cookies();
+  cookieStore.set({
+    name: SESSION_COOKIE_NAME,
+    value: userId,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+    maxAge: 60 * 60 * 24 * 7,
+  });
 }
 
 export async function loginUser(prevState, formData) {
-  const email = formData.get('email');
-  const password = formData.get('password');
+  const email = String(formData.get('email') || '').trim().toLowerCase();
+  const password = String(formData.get('password') || '');
 
   if (!email || !password) {
     return { success: false, error: 'Email and password are required.' };
   }
 
-  try {
-    const user = await prisma.user.findFirst({
-      where: {
-        email,
-        password
-      }
-    })
-    if (!user) {
-      return { success: false, error: "Invalid email or password" }
-    }
-    const cookieStore = await cookies();
-    cookieStore.set({
-      name: SESSION_COOKIE_NAME,
-      value: user.id,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-    });
-  } catch (err) {
-    console.log(err);
-    return { success: false, error: err.message }
-  }
+  const user = globalThis.learningUsers.find(
+    (item) => item.email === email && item.password === password,
+  );
+  if (!user) return { success: false, error: 'Invalid email or password.' };
 
+  await startSession(user.id);
   redirect('/dashboard');
 }
 
